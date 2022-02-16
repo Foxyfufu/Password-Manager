@@ -1,0 +1,6 @@
+Things to do:
+1. remove the b''
+2. Random password generation
+3. timely alert for password change
+4. second factor authorisation
+5. front end

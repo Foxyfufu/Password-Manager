@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %} Update {% endblock %}
+
+{% block body %} 
+
+<div class="content">
+    <h1>Update Entry</h1>
+
+    <form action="/update/{{entry.entry_id}}" method="POST">
+        <label>Website:</label><input type="text" name="updateWebsite" id="website" value="{{entry.entry_website}}"><br><br>
+        <label>Email:</label><input type="text" name="updateEmail" id="email" value="{{entry.entry_email}}"><br><br>
+        <label>Username:</label><input type="text" name="updateUsername" id="username" value="{{entry.entry_username}}"><br><br>
+        <label>Password:</label><input type="text" name="updatePassword" id="password"><br><br>
+        <label></label><input type="submit" value="Update">
+    </form>
+</div>
+
+{% endblock %}

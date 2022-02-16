@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block head %} Hello {% endblock %}
+
+{% block body %} 
+
+<div class="content">
+    <h1>Your saved passwords</h1>
+
+    {% if entries|length < 1 %}
+
+    <h4>You have no saved passwords. Start saving below.</h4>
+
+    {% else %}
+
+    <table>
+
+        <tr>
+            <th>Website</th>
+            <th>E-mail</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for entry in entries %}
+
+        <tr>
+            <td> {{ entry.entry_website }} </td>
+            <td> {{ entry.entry_email }} </td>
+            <td> {{ entry.entry_username }} </td>
+            <td> {{ entry.entry_encryptedPassword }} </td>
+            <td>
+                <a href="/delete/{{entry.entry_id}}">Delete</a>
+                <br>
+                <a href="/update/{{entry.entry_id}}">Update</a>
+            </td>           
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% endif %}
+
+    <h4>Add new entry:</h4>
+
+    <form action="/home" method="POST">
+        <label>Website:</label><input type="text" name="newWebsite" id="newWebsite"><br><br>
+        <label>E-mail:</label><input type="text" name="newEmail" id="newEmail"><br><br>
+        <label>Username:</label><input type="text" name="newUsername" id="newUsername"><br><br>
+        <label>Password:</label><input type="text" name="newPassword" id="newPassword"><br><br>
+        <input type="submit" value="Add">
+    </form>
+
+</div>
+
+<a href="{{ url_for('logout')}}">Logout Here</a>
+
+{% endblock %}
