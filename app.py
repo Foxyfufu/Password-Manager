@@ -3,7 +3,7 @@ from config import APP_KEY #encrypt cookies
 from models import db, login, UserModel, Manager
 from flask_login import login_required, current_user, login_user, logout_user
 from flask_session import Session
-import os
+from passwordGenerator import passwordGenerator
 
 # from functools import wraps
 # from utils import generate_uid, divide_data
@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 app.secret_key = APP_KEY
 Session(app)
+passwordGeneration = passwordGenerator()
 
 db.init_app(app)
 @app.before_first_request
@@ -153,6 +154,12 @@ def update(entry_id):
 
     else:
         return render_template('update.html', entry=entry)
+
+@app.route('/generate')
+def generateRandom():
+    temp = passwordGeneration.generatePassword()
+    randomPassword = 'Your new password is: '+ temp
+    return render_template('home.html', randompassword=randomPassword)
 
 if __name__ == "__main__":
     app.run(debug=True)
