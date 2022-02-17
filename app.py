@@ -4,6 +4,7 @@ from models import db, login, UserModel, Manager
 from flask_login import login_required, current_user, login_user, logout_user
 from flask_session import Session
 from passwordGenerator import passwordGenerator
+from flask_mail import Mail, Message
 
 # from functools import wraps
 # from utils import generate_uid, divide_data
@@ -13,6 +14,8 @@ app.config.from_pyfile('config.py')
 app.secret_key = APP_KEY
 Session(app)
 passwordGeneration = passwordGenerator()
+
+mail = Mail(app)
 
 db.init_app(app)
 @app.before_first_request
@@ -75,16 +78,17 @@ def register():
     return render_template('register.html')
 
 #second factor authorisation
-# @app.route("/login/2fa/")
-# def login_2fa():
-#     # generating random secret key for authentication
-#     secret = pyotp.random_base32()
-#     return render_template("login_2fa.html", secret=secret)
+@app.route("/login/2fa/")
+def login_2fa():
+    session['OTP'] = passwordGeneration.generateOTP()
+    msg = Message('OTP for login manager', sender = 'peter@mailtrap.io', recipients = ['paul@mailtrap.io']) #change
+    msg.body = "Hey! Please enter the OTP below into the portal. Your OTP is: " + session['OTP']
+    mail.send(msg)
 
-# @app.route('/home')
-# @login_required
-# def home():
-#     return render_template('home.html')
+    if request.method == 'POST':
+        OTP = request.form['OTP']
+        if OTP == session['OTP']:
+            login_user
 
 #log out the user
 @app.route('/logout')
@@ -119,8 +123,13 @@ def index():
         for entry in entries:
             if entry.entry_encryptedPassword:
                 entry.entry_encryptedPassword = entry.decrypt_password(entry.entry_encryptedPassword)
+        
+    # def reminder():	     
+	#     return('Please change your password!')
+    
+    # schedule.every(5).seconds.do(reminder)
 
-        return render_template('home.html', entries=entries)
+    return render_template('home.html', entries=entries)
 
 @app.route('/delete/<int:entry_id>')
 def delete(entry_id):

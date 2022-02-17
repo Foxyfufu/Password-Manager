@@ -43,5 +43,6 @@ class Manager(db.Model):
         self.entry_encryptedPassword = encryptdecrypt.encrypt_password(password)
 
     def decrypt_password(self, encryptedPassword):
-        decryptedPassword = encryptdecrypt.decrypt_password(encryptedPassword)
+        decryptedpassword = encryptdecrypt.decrypt_password(encryptedPassword)
+        decryptedPassword = decryptedpassword[2:-1]
         return decryptedPassword
