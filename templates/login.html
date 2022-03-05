@@ -2,16 +2,28 @@
 
 {% block head %} Home Page {% endblock %}
 
+{% block content %} 
+    <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a href="/register" class="nav-link">Register</a>
+            </li>
+        </ul>
+  </div>
+{% endblock %}
 
 {% block body %} 
-<div class="container">
-    <div class="row align-items-start bg-black">
-
+<div class="bg-dark text-white">
+    <div class="container row" id="login">
         <div class="col">
-            <div class="align-items-center text-white">
-                <h1>Your Personal Password Manager</h1> 
-                <p class ="lead text-white p-2">
-                    Safekeep your passwords with us! <br> Benefits: <br> 1. Random password generation <br> 2. Store passwords <br> 3. Reminder to change passwords
+            <div>
+                <p class="align-items-center px-5 fs-4">Safekeep your passwords with SafePM!</p> 
+                <p class="lead px-5 py-2 align-items-start">
+                    Benefits: <br> 
+                    1. Store passwords safely and securely <br>
+                    2. Safe login with two factor authorisation <br>
+                    3. Random password generation for new websites <br> 
+                    4. Reminder to change passwords periodically <br>
                 </p>
             </div>
         </div>
@@ -24,18 +36,17 @@
                     {% endfor %}  
                 {% endif %}  
             {% endwith %} 
-            <div class="align-items-center text-white">
-                <h1>Log In</h1>
+            <div class="align-items-center">
+                <h4>Log In</h4>
                 <form action="" method = "POST">
-                    <p>E-mail: <input type = "email" name = "email" /></p>
-                    <p>Password: <input type = "password" name = "password" /></p>
-                    <p><input type = "submit" value = "Next" /></p>
-                </form>
-                 
-                <h3>Dont Have an account??</h3>
-                <h3><a href = "/register">Register Here</a></h3>
+                    <p>E-mail: <input type = "email" name = "email"></p>
+                    <p>Password: <input type = "password" name = "password"></p>
+                    <p><input type = "submit" value = "Next"></p>
+                </form>                
+                <h6 class="pt-3">Don't have an account?</h6>
+                <h7><a href = "/register">Register Here</a></h7>
             </div>
-        </div>
+        </div>    
     </div>
 </div>
 {% endblock %}

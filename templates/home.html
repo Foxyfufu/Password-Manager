@@ -1,64 +1,92 @@
 {% extends "base.html" %}
 
-{% block head %} Hello {% endblock %}
+{% block head %} Welcome {% endblock %}
+
+{% block content %} 
+    <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a href="/logout" class="nav-link">Logout</a>
+            </li>
+        </ul>
+  </div>
+{% endblock %}
 
 {% block body %} 
 
-<div class="content">
-    <h1>Your saved passwords</h1>
+<div class="bg-dark text-white">
+    <div class="container">
+        <h4>Your saved passwords</h4>     
 
-    {% if entries|length < 1 %}
+            <table class="table text-white">
+                <thead>
+                    <tr>
+                        <th scope="col">Website</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                
+                {% if entries|length < 1 %}
 
-    <h4>You have no saved passwords. Start saving below.</h4>
+                    <h6>You have no saved passwords. Start saving below.</h6>
 
-    {% else %}
+                {% else %}
+                    {% for entry in entries %}
+                        <tbody>
+                            <tr>
+                                <td scope="row"> {{ entry.entry_website }} </td>
+                                <td> {{ entry.entry_email }} </td>
+                                <td> {{ entry.entry_username }} </td>
+                                <td> {{ entry.entry_encryptedPassword }} </td>
+                                <td>
+                                    <a href="/delete/{{entry.entry_id}}">Delete</a>
+                                    <br>
+                                    <a href="/update/{{entry.entry_id}}">Update</a>
+                                </td>           
+                            </tr>
+                        </tbody>                   
+                    {% endfor %}
+                {% endif %}
 
-    <table>
+                <tbody>
+                    <tr>
+                        <td scope="row"> Add new entry: </td>       
+                    </tr>
+                </tbody>
 
-        <tr>
-            <th>Website</th>
-            <th>E-mail</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Actions</th>
-        </tr>
+                <tbody>
+                    <tr>
+                        <form action="/home" method="POST">
+                        <td scope="row"> <input type="text" name="newWebsite" id="newWebsite"> </td>
+                        <td> <input type="email" name="newEmail" id="newEmail"> </td>
+                        <td> <input type="text" name="newUsername" id="newUsername"> </td>
+                        <td> <input type="text" name="newPassword" id="newPassword"> </td>
+                        <td><input type="submit" value="Add"></td>
+                    </form>           
+                    </tr>
+                </tbody>
+            </table>
 
-        {% for entry in entries %}
+        <!-- <h5>Add new entry:</h5>
 
-        <tr>
-            <td> {{ entry.entry_website }} </td>
-            <td> {{ entry.entry_email }} </td>
-            <td> {{ entry.entry_username }} </td>
-            <td> {{ entry.entry_encryptedPassword }} </td>
-            <td>
-                <a href="/delete/{{entry.entry_id}}">Delete</a>
-                <br>
-                <a href="/update/{{entry.entry_id}}">Update</a>
-            </td>           
-        </tr>
+        <form action="/home" method="POST">
+            <label>Website:</label><input type="text" name="newWebsite" id="newWebsite"><br><br>
+            <label>E-mail:</label><input type="text" name="newEmail" id="newEmail"><br><br>
+            <label>Username:</label><input type="text" name="newUsername" id="newUsername"><br><br>
+            <label>Password:</label><input type="text" name="newPassword" id="newPassword"><br><br>
+            <input type="submit" value="Add">
+        </form> -->
 
-        {% endfor %}
+        <h6>Generate a random password:</h6>
+        <!-- <a href="/generate">Generate!</a> <br> -->
+        <a class="btn btn-info" href="/generate" role="button">Generate!</a> <br>
+        {{ randompassword }}
 
-    </table>
-
-    {% endif %}
-
-    <h4>Add new entry:</h4>
-
-    <form action="/home" method="POST">
-        <label>Website:</label><input type="text" name="newWebsite" id="newWebsite"><br><br>
-        <label>E-mail:</label><input type="text" name="newEmail" id="newEmail"><br><br>
-        <label>Username:</label><input type="text" name="newUsername" id="newUsername"><br><br>
-        <label>Password:</label><input type="text" name="newPassword" id="newPassword"><br><br>
-        <input type="submit" value="Add">
-    </form>
-
-    <h4>Generate a random password:</h4> <br>
-    <a href="/generate">Generate!</a>
-    {{ randompassword }}
-
+        <br>
+    </div>
 </div>
-
-<a href="{{ url_for('logout')}}">Logout Here</a>
 
 {% endblock %}

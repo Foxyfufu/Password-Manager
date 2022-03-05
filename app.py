@@ -81,14 +81,15 @@ def register():
 @app.route("/login/2fa/")
 def login_2fa():
     session['OTP'] = passwordGeneration.generateOTP()
-    msg = Message('OTP for login manager', sender = 'peter@mailtrap.io', recipients = ['paul@mailtrap.io']) #change
+    msg = Message('OTP for login manager', sender = 'peter@mailtrap.io', recipients = [session['email']]) #change
     msg.body = "Hey! Please enter the OTP below into the portal. Your OTP is: " + session['OTP']
     mail.send(msg)
+    user = session['user']
 
     if request.method == 'POST':
         OTP = request.form['OTP']
         if OTP == session['OTP']:
-            login_user
+            login_user(user)
 
 #log out the user
 @app.route('/logout')
@@ -132,6 +133,7 @@ def index():
     return render_template('home.html', entries=entries)
 
 @app.route('/delete/<int:entry_id>')
+@login_required
 def delete(entry_id):
     to_delete = Manager.query.get_or_404(entry_id) #get id, if no such id then error 404
 
@@ -144,6 +146,7 @@ def delete(entry_id):
         return ('There was an error deleting this entry')
  
 @app.route('/update/<int:entry_id>', methods=["GET", "POST"])
+@login_required
 def update(entry_id):
     entry = Manager.query.get_or_404(entry_id)
 
@@ -169,6 +172,10 @@ def generateRandom():
     temp = passwordGeneration.generatePassword()
     randomPassword = 'Your new password is: '+ temp
     return render_template('home.html', randompassword=randomPassword)
+
+@app.route('/back')
+def back():
+    return redirect('/home')
 
 if __name__ == "__main__":
     app.run(debug=True)

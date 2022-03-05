@@ -5,15 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href = "style.css">
+  <link rel="stylesheet" href = "/static/style.css">
   <title>{% block head %} {% endblock %}</title>
 </head>
 
 <body>
-  <div class="container">
-    <!--Nav Bar-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black p-3">
-        <a href="#" class="navbar-brand">Your Personal Password Manager</a>
+  <!--Nav Bar-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+    <div class="container">
+        <a href="#"><img id="home" src="/static/Logo.png" alt="home" height="200px" ;>
+        <a href="#" class="navbar-brand text-secondary"><h2>SafePM - Your Personal Password Manager</h2></a>
 
         <button
           class="navbar-toggler"
@@ -24,14 +25,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navmenu">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a href="register.html" class="nav-link">Sign Up</a>
-            </li>
-            </li>
-          </ul>
-        </div>
+        {% block content %} {% endblock %}
     </nav>
 
     {% block body %} {% endblock %}
@@ -40,9 +34,9 @@
   </div>
   </body>
 
-<footer class="container">
-  <div class="p-3 bg-black text-white text-sm-center position-relative">
-    <p class="lead">Copyright &copy; 2022 Your personal password manager</exit p>
+<footer class="p-3 bg-dark text-secondary text-sm-center position-relative">
+  <div class=>
+    <p class="lead fs-6">Copyright &copy; 2022 SafePM</exit p>
   </div>
 </footer>
 

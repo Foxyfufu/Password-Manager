@@ -1,6 +1,3 @@
 Things to do:
 3. timely alert for password change
 4. second factor authorisation
-5. front end
-
-Stop at login2fa stop halfway
