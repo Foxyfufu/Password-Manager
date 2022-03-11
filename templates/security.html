@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %} SafePM {% endblock %}
+
+{% block content %} 
+
+    <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a href="/logout" class="nav-link">Logout</a>
+            </li>
+        </ul>
+  </div>
+
+{% endblock %}
+
+{% block body %} 
+
+<div class="bg-dark text-white">
+    <div class="container content">
+        <form action="/security" method="POST">
+            <label>Please enter the OTP sent to your e-mail:</label>
+            <input type="text" name="OTP" id="OTP"><br><br>
+            <input type="submit" value="Confirm">
+        </form>
+    </div>
+</div>    
+
+{% endblock %}

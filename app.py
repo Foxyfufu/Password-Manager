@@ -1,10 +1,16 @@
+from __future__ import print_function
+import os.path
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 from config import APP_KEY #encrypt cookies
 from models import db, login, UserModel, Manager
 from flask_login import login_required, current_user, login_user, logout_user
 from flask_session import Session
 from passwordGenerator import passwordGenerator
-from flask_mail import Mail, Message
+from Google import create_service
+import base64
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 
 # from functools import wraps
 # from utils import generate_uid, divide_data
@@ -15,7 +21,12 @@ app.secret_key = APP_KEY
 Session(app)
 passwordGeneration = passwordGenerator()
 
-mail = Mail(app)
+CLIENT_SECRET_FILE = 'credentials.json'
+API_NAME = 'gmail'
+API_VERSION = 'v1'
+SCOPES = ['https://mail.google.com/']
+
+service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
 db.init_app(app)
 @app.before_first_request
@@ -39,9 +50,9 @@ def login():
         if user is not None and user.check_password(request.form['password']):
             session['user'] = user
             session['email'] = email
-            login_user(user)
-            return redirect('/home')
-            #return redirect('/security')
+            # login_user(user)
+            # return redirect('/home')
+            return redirect('/security')
 
         else:
             flash("Your e-mail or password is incorrect")   
@@ -78,18 +89,32 @@ def register():
     return render_template('register.html')
 
 #second factor authorisation
-@app.route("/login/2fa/")
-def login_2fa():
-    session['OTP'] = passwordGeneration.generateOTP()
-    msg = Message('OTP for login manager', sender = 'peter@mailtrap.io', recipients = [session['email']]) #change
-    msg.body = "Hey! Please enter the OTP below into the portal. Your OTP is: " + session['OTP']
-    mail.send(msg)
-    user = session['user']
-
+@app.route('/security', methods=['POST', 'GET'])
+def security():
     if request.method == 'POST':
-        OTP = request.form['OTP']
-        if OTP == session['OTP']:
+        OTPinput = request.form['OTP']
+        if OTPinput == session['OTP']:
+            user = session['user']
             login_user(user)
+            return redirect('/home')
+
+        else:
+            return render_template('login.html')
+
+    else:
+        session['OTP'] = passwordGeneration.generateOTP()
+
+        emailMsg = 'Your OTP is: ' + session['OTP']
+        mimeMessage = MIMEMultipart()
+        mimeMessage['to'] = 'lxj982005@gmail.com'
+        mimeMessage['subject'] = 'SafePM OTP'
+        mimeMessage.attach(MIMEText(emailMsg, 'plain'))
+        raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
+
+        message = service.users().messages().send(userId='me', body={'raw': raw_string}).execute()
+        print(message)
+
+        return render_template('security.html')
 
 #log out the user
 @app.route('/logout')
@@ -168,12 +193,19 @@ def update(entry_id):
         return render_template('update.html', entry=entry)
 
 @app.route('/generate')
+@login_required
 def generateRandom():
     temp = passwordGeneration.generatePassword()
     randomPassword = 'Your new password is: '+ temp
-    return render_template('home.html', randompassword=randomPassword)
+    e_mail = session['email']
+    entries = Manager.query.filter_by(user_email=e_mail).all()
+    for entry in entries:
+        if entry.entry_encryptedPassword:
+            entry.entry_encryptedPassword = entry.decrypt_password(entry.entry_encryptedPassword)
+    return render_template('home.html', randompassword=randomPassword, entries = entries)
 
 @app.route('/back')
+@login_required
 def back():
     return redirect('/home')
 
