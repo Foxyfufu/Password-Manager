@@ -1,3 +1,0 @@
-Things to do:
-1. timely alert for password change
-2. Static content for SEA

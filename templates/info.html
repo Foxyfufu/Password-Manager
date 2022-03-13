@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block head %} Social Engineering Attack {% endblock %}
+
+{% block content %} 
+    <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a href="/" class="nav-link">SafePM</a>
+            </li>
+        </ul>
+  </div>
+{% endblock %}
+
+{% block body %} 
+
+<section class="bg-dark text-light p-5 p-lg-0 text-center text-sm-start">
+    <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between">
+          <div>
+            <h3>What is <span class="text-warning"> Social Engineering Attack? </span></h3>
+            <p class="lead">
+                Cyber security social engineering attack is the act of executing malicious 
+                activities accomplished through human interactions. It often preys on human 
+                emotions such as greed, curiosity or anxiety to successfully trick people 
+                to make security mistakes. Recently, social engineering attacks are 
+                prevailing, and more people fall prey into these meticulously laid traps.
+            </p>
+          </div>
+          <img class="img-fluid d-none d-sm-block" id ="hacker" src="static/hacker.svg" alt="" />
+        </div>
+    </div>
+</section>
+
+<section class="px-5 py-3 bg-dark text-light">
+    <div class="container">
+      <div class="row text-center g-4">
+        <div class="col-md">
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+              <h3 class="card-title mb-2">Scareware</h3>
+              <p class="card-text">
+                Scareware is a tactic that manipulates victims into believing that they need to 
+                download or buy a software. Most often initiated by bombarding victims with false alarms
+                and fictitious threats to make them think that their systems are infected with malware. 
+                Scareware goals can vary from selling these fake software or installing the actual damaging 
+                malware to steal private information.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+              <h3 class="card-title mb-2">Phishing</h3>
+              <p class="card-text">
+                Phishing uses a disguised e-mail to trick the recipient into believing it 
+                came from a legitimate source. The sender e-mail is often masked with an address that 
+                looks real and contains attachments to malware or links to malicious sites. When 
+                the victim clicks on the link or attachment, malware will be installed or malicious website 
+                that looks legitimate asking for confidential information will open.
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card bg-primary">
+            <div class="card-body text-center">
+              <h3 class="card-title mb-2">Pretexting</h3>
+              <p class="card-text">
+                Pretexting is typically phase one of a broader scheme to extract information from a victim. It 
+                usually involves the attacker creating a good pretext (fabricated scenario) and impersonating a 
+                trusted individual or a person who is credible such as police offers or banks. They pretend to 
+                need sensitive information urgently for a critical task and give the victim no time to think.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-3 bg-dark text-light">
+    <div class="container">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <img class="img-fluid d-none d-sm-block" id="hacker" src="static/antivirus.svg" alt="" />
+        <div class="px-5 py-3">
+          <h3><span class="text-success">How to avoid falling victim?</span></h3>
+          <p>
+            1. Verify sender identity <br>
+            Although most phishing e-mails may appear real in the first glance, many loopholes can be 
+            seen after taking closer looks. Phishing e-mails can be masked with real extensions to impersonate colleagues or 
+            government officials. However, clicking into the e-mail will show the actual sender e-mail address which 
+            is usually a dummy address with random characters. Other ways to identify can also include a generic 
+            greeting or unofficial e-mail template.
+          </p>
+          <p>
+            2. Multi factor verification <br>
+            Multi factor verification is a security technology that requires multiple forms of methods to authenticate 
+            the user’s identity for a login or transaction. The forms of identification are usually from these three 
+            key factors: Knowledge (password), Possession (token) and Inherence (facial recognition). Hence, users should 
+            always set up multi factor verification as attackers are unable to access the information 
+            even if they know the password since other methods of verification are required.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-3 bg-dark text-light">
+    <div class="container">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="px-5 py-3">
+          <h3><span class="text-info">So... Why SafePM?</span></h3>
+          <p>
+            SafePM is your personal password manager that helps to safekeep and manage your passwords. SafePM is equipped 
+            with 2 factor authorisation and encryption to ensure that your passwords are secure with us. For your 
+            convenience, it is easy to edit and delete your saved passwords.To deter against social engineering attacks, 
+            we also have the function to help you generate random passwords.
+          </p>
+        </div>
+          <img class="img-fluid d-none d-sm-block" id="hacker" src="static/safe.svg" alt="" />
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}

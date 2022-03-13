@@ -1,6 +1,5 @@
 from __future__ import print_function
-import os.path
-from flask import Flask, render_template, request, redirect, session, flash, url_for
+from flask import Flask, render_template, request, redirect, session, flash
 from config import APP_KEY #encrypt cookies
 from models import db, login, UserModel, Manager
 from flask_login import login_required, current_user, login_user, logout_user
@@ -10,7 +9,6 @@ from Google import create_service
 import base64
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 
 # from functools import wraps
 # from utils import generate_uid, divide_data
@@ -25,7 +23,6 @@ CLIENT_SECRET_FILE = 'credentials.json'
 API_NAME = 'gmail'
 API_VERSION = 'v1'
 SCOPES = ['https://mail.google.com/']
-
 service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
 db.init_app(app)
@@ -208,6 +205,10 @@ def generateRandom():
 @login_required
 def back():
     return redirect('/home')
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
