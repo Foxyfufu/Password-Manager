@@ -103,7 +103,7 @@ def security():
 
         emailMsg = 'Your OTP is: ' + session['OTP']
         mimeMessage = MIMEMultipart()
-        mimeMessage['to'] = 'lxj982005@gmail.com'
+        mimeMessage['to'] = session['email']
         mimeMessage['subject'] = 'SafePM OTP'
         mimeMessage.attach(MIMEText(emailMsg, 'plain'))
         raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()

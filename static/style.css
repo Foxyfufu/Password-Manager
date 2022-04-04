@@ -5,3 +5,8 @@
 #hacker {
     width: 20%
 }
+
+#video{
+    display: flex;
+    justify-content: center;
+}
